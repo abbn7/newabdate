@@ -5,6 +5,29 @@ import giitHero from "@/assets/giit-hero.jpeg";
 import giitFeatures from "@/assets/giit-features.webp";
 import giitCommands from "@/assets/giit-commands.webp";
 
+export type Project = {
+  slug: string;
+  title: string;
+  titleAr: string;
+  tagline: string;
+  taglineAr: string;
+  year: string;
+  role: string;
+  roleAr: string;
+  live: string;
+  repos: { label: string; url: string }[];
+  cover: string;
+  gallery: { src: string; caption: string }[];
+  stack: Record<string, string[]>;
+  overview: string;
+  overviewAr: string;
+  features: { t: string; d: string }[];
+  architecture: { t: string; d: string }[];
+  security: string[];
+  commands: { c: string; k: string; d: string }[];
+};
+
+
 export const profile = {
   name: "Abdelhamed Nada",
   nameAr: "عبدالحميد ندا",
