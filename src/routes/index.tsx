@@ -150,7 +150,7 @@ function HomePage() {
                   </p>
 
                   <div className="mt-6 flex flex-wrap gap-2">
-                    {[...featured.stack.Bot, ...featured.stack.Website].slice(0, 6).map((s) => (
+                    {Object.values(featured.stack).flat().slice(0, 6).map((s) => (
                       <span
                         key={s}
                         className="rounded-full glass-subtle px-3 py-1 text-[11px] text-foreground/85"
