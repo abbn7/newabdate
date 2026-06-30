@@ -41,7 +41,7 @@ function HomePage() {
       <Hero />
 
       {/* About */}
-      <section id="about" className="relative px-4 py-28 sm:py-36">
+      <section id="about" className="relative px-4 py-12 sm:py-16">
         <div className="mx-auto max-w-6xl">
           <SectionReveal>
             <SectionHeader kicker={t("about.kicker")} title={t("about.title")} />
@@ -98,7 +98,7 @@ function HomePage() {
       </section>
 
       {/* Skills */}
-      <section className="relative px-4 py-28 sm:py-36">
+      <section className="relative px-4 py-12 sm:py-16">
         <div className="mx-auto max-w-6xl">
           <SectionReveal>
             <SectionHeader kicker={t("skills.kicker")} title={t("skills.title")} />
@@ -129,7 +129,7 @@ function HomePage() {
       </section>
 
       {/* Featured project */}
-      <section className="relative px-4 py-28 sm:py-36">
+      <section className="relative px-4 py-12 sm:py-16">
         <div className="mx-auto max-w-6xl">
           <SectionReveal>
             <SectionHeader kicker={t("projects.kicker")} title={t("projects.title")} />
@@ -204,7 +204,7 @@ function HomePage() {
       </section>
 
       {/* Process */}
-      <section className="relative px-4 py-28 sm:py-36">
+      <section className="relative px-4 py-12 sm:py-16">
         <div className="mx-auto max-w-6xl">
           <SectionReveal>
             <SectionHeader kicker={t("process.kicker")} title={t("process.title")} />
@@ -224,7 +224,7 @@ function HomePage() {
       </section>
 
       {/* CTA */}
-      <section className="relative px-4 py-28">
+      <section className="relative px-4 py-12 sm:py-16">
         <div className="mx-auto max-w-4xl">
           <SectionReveal>
             <GlassCard className="p-10 sm:p-14 text-center" glow>

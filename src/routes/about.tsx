@@ -76,7 +76,7 @@ function AboutPage() {
         </div>
       </section>
 
-      <section className="relative z-[1] px-4 py-16">
+      <section className="relative z-[1] px-4 py-10 sm:py-14">
         <div className="mx-auto max-w-6xl">
           <SectionReveal>
             <h2 className="font-display text-3xl tracking-tight">Key strengths</h2>
@@ -94,7 +94,7 @@ function AboutPage() {
         </div>
       </section>
 
-      <section className="relative z-[1] px-4 py-16">
+      <section className="relative z-[1] px-4 py-10 sm:py-14">
         <div className="mx-auto max-w-6xl">
           <SectionReveal>
             <h2 className="font-display text-3xl tracking-tight">Technical skills</h2>
@@ -123,7 +123,7 @@ function AboutPage() {
         </div>
       </section>
 
-      <section className="relative z-[1] px-4 py-16 pb-24">
+      <section className="relative z-[1] px-4 py-10 sm:py-14">
         <div className="mx-auto max-w-6xl">
           <SectionReveal>
             <h2 className="font-display text-3xl tracking-tight">{t("about.education")}</h2>
