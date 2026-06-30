@@ -15,7 +15,7 @@ export type Project = {
   role: string;
   roleAr: string;
   live: string;
-  repos: { label: string; url: string }[];
+  repos?: { label: string; url: string }[];
   cover: string;
   gallery: { src: string; caption: string }[];
   stack: Record<string, string[]>;

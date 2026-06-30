@@ -108,7 +108,7 @@ function ProjectDetail() {
               >
                 {t("projects.live")} <ExternalLink className="size-4" />
               </a>
-              {p.repos.map((r) => (
+              {p.repos?.map((r) => (
                 <a
                   key={r.url}
                   href={r.url}
