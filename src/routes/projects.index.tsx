@@ -70,7 +70,7 @@ function ProjectsIndex() {
                           {isAr ? p.taglineAr : p.tagline}
                         </p>
                         <div className="mt-6 flex flex-wrap gap-2">
-                          {[...p.stack.Website, ...p.stack.Bot].slice(0, 6).map((s) => (
+                          {Object.values(p.stack).flat().slice(0, 6).map((s) => (
                             <span
                               key={s}
                               className="rounded-full glass-subtle px-3 py-1 text-[11px] text-foreground/85"
