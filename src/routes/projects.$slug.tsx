@@ -80,7 +80,7 @@ function ProjectDetail() {
     <article className="relative">
       <div aria-hidden className="aurora" />
 
-      <section className="relative z-[1] px-4 pt-36 pb-12 sm:pt-44">
+      <section className="relative z-[1] px-4 pt-32 pb-8 sm:pt-40">
         <div className="mx-auto max-w-6xl">
           <Link
             to="/projects"
@@ -124,7 +124,7 @@ function ProjectDetail() {
         </div>
       </section>
 
-      <section className="relative z-[1] px-4 pb-12">
+      <section className="relative z-[1] px-4 pb-8">
         <div className="mx-auto max-w-6xl">
           <SectionReveal delay={0.05}>
             <GlassCard className="overflow-hidden">
@@ -140,7 +140,7 @@ function ProjectDetail() {
         </div>
       </section>
 
-      <section className="relative z-[1] px-4 py-12">
+      <section className="relative z-[1] px-4 py-8 sm:py-10">
         <div className="mx-auto max-w-6xl grid gap-6 lg:grid-cols-[1.4fr_1fr]">
           <SectionReveal>
             <GlassCard className="p-8 sm:p-10">
@@ -177,7 +177,7 @@ function ProjectDetail() {
         </div>
       </section>
 
-      <section className="relative z-[1] px-4 py-12">
+      <section className="relative z-[1] px-4 py-8 sm:py-10">
         <div className="mx-auto max-w-6xl">
           <SectionReveal>
             <h2 className="font-display text-3xl tracking-tight">{t("projects.features")}</h2>
@@ -195,7 +195,7 @@ function ProjectDetail() {
         </div>
       </section>
 
-      <section className="relative z-[1] px-4 py-12">
+      <section className="relative z-[1] px-4 py-8 sm:py-10">
         <div className="mx-auto max-w-6xl grid gap-6 lg:grid-cols-2">
           <SectionReveal>
             <GlassCard className="h-full p-8 sm:p-10">
@@ -232,7 +232,7 @@ function ProjectDetail() {
         </div>
       </section>
 
-      <section className="relative z-[1] px-4 py-12">
+      <section className="relative z-[1] px-4 py-8 sm:py-10">
         <div className="mx-auto max-w-6xl">
           <SectionReveal>
             <h2 className="font-display text-3xl tracking-tight">{t("projects.commands")}</h2>
@@ -255,7 +255,7 @@ function ProjectDetail() {
         </div>
       </section>
 
-      <section className="relative z-[1] px-4 py-12 pb-24">
+      <section className="relative z-[1] px-4 py-10 pb-20">
         <div className="mx-auto max-w-6xl">
           <SectionReveal>
             <h2 className="font-display text-3xl tracking-tight">{t("projects.gallery")}</h2>
