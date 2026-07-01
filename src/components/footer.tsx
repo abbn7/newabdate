@@ -44,7 +44,7 @@ export function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/dev" className="hover:text-foreground text-muted-foreground">
+                  <Link to="/dev" rel="nofollow" className="hover:text-foreground text-muted-foreground">
                     {t("nav.dev")}
                   </Link>
                 </li>
