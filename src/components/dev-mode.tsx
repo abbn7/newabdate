@@ -9,8 +9,7 @@ const STACK = [
   ["TanStack Start", "React 19 full-stack framework"],
   ["TypeScript", "End-to-end type safety"],
   ["Tailwind CSS v4", "Design tokens via @theme"],
-  ["Framer Motion", "Layout & gesture motion"],
-  ["GSAP", "Scroll-driven choreography"],
+  ["Framer Motion", "Layout, gesture & scroll motion"],
   ["React Three Fiber", "WebGL 3D in React"],
   ["Three.js + drei", "Transmission materials, env lighting"],
   ["Lenis", "Smooth scroll engine"],
@@ -50,8 +49,7 @@ export function DevModeButton() {
         transition={{ delay: 1.2, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         whileHover={{ scale: 1.06 }}
         whileTap={{ scale: 0.94 }}
-        className="fixed bottom-5 z-40 grid size-12 place-items-center rounded-full glass-strong shadow-2xl safe-bottom focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
-        style={{ insetInlineStart: "1rem" }}
+        className="fixed bottom-5 left-4 z-40 grid size-12 place-items-center rounded-full glass-strong shadow-2xl safe-bottom focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
       >
         <Code2 className="size-[18px] opacity-90" strokeWidth={1.75} />
       </motion.button>
@@ -62,7 +60,7 @@ export function DevModeButton() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] grid place-items-end bg-black/40 backdrop-blur-sm"
+            className="fixed inset-0 z-[60] flex items-end justify-center bg-black/40 backdrop-blur-sm"
             onClick={() => setOpen(false)}
           >
             <motion.aside
@@ -71,7 +69,7 @@ export function DevModeButton() {
               exit={{ y: 60, opacity: 0 }}
               transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
               onClick={(e) => e.stopPropagation()}
-              className="m-3 w-full max-w-md rounded-3xl glass-strong p-6 sm:m-6"
+              className="mx-auto mb-3 w-[calc(100%-1.5rem)] max-w-md max-h-[85dvh] overflow-y-auto overscroll-contain rounded-3xl glass-strong p-6 sm:mb-6"
             >
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-3">

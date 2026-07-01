@@ -145,11 +145,15 @@
     color-scheme: light;
   }
 
+  html {
+    overflow-x: clip;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
-    overflow-x: hidden;
+    overflow-x: clip;
     min-height: 100dvh;
   }
 

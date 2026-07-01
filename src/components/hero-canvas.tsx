@@ -19,14 +19,13 @@ function GlassTorus() {
           backside
           samples={6}
           thickness={1.4}
-          chromaticAberration={0.18}
+          chromaticAberration={0.12}
           anisotropy={0.6}
           distortion={0.4}
           distortionScale={0.4}
           temporalDistortion={0.2}
           roughness={0.05}
           ior={1.3}
-          color="#a89cff"
         />
       </mesh>
     </Float>

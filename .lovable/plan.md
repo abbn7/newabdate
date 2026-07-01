@@ -1,58 +1,69 @@
 
-## 1. Fix the floating buttons (WhatsApp + Dev Mode)
+## 1. Fix the horizontal page shift (IMG_9657 / IMG_9658)
 
-Issues visible in screenshot 1:
-- **Dev Mode `</>` button** renders with a ghost double-ring: the button has a `glass-subtle` background that paints a border, and the icon stroke + safe-area padding + a stray glow on the home page makes it look like two overlapping circles. The button is also `size-10` while WhatsApp is `size-12` (inconsistent).
-- **WhatsApp button** has a `radial-gradient` pulse painted as a sibling `<span>` *behind* the icon, but `glass-strong` has its own backdrop blur, so the green halo bleeds *inside* the glass and washes the icon.
+Root cause: `body { overflow-x: hidden }` alone doesn't stop iOS Safari from letting `html` scroll horizontally when a descendant is wider than the viewport. Something on the projects and contact routes (very likely the `SectionReveal` initial `x`/scale transforms, the `aurora` blob with `inset:-20%`, or the fixed nav rendering wider than viewport when scrollbar is absent) pushes the layout past `100vw`, so mobile Safari parks the viewport with a non-zero `scrollLeft` — the page appears "shoved to the side".
 
 Fix:
-- Match both FABs to a single shared shape: `size-12`, identical glass treatment, identical safe-area offsets, same vertical baseline.
-- Move the WhatsApp green halo *outside* the glass disk (render it as an outer aura behind the button, not inside it), and lower its opacity so the icon stays crisp.
-- Give the Dev Mode button a real `Code2` lucide icon at proper stroke width, remove the conflicting inner ring by dropping the redundant border layer and using a single `glass-strong` surface (same as WhatsApp).
-- Add a subtle hover/tap motion parity (Framer Motion `whileHover`/`whileTap`) on both.
+- In `src/styles.css`, add `overflow-x: clip` on `html` (and keep it on `body`); `clip` beats `hidden` because it also disables programmatic scroll and doesn't create a scroll container that Lenis/iOS can latch onto.
+- Wrap every route's outermost `<div className="relative">` in a `overflow-x: clip` container OR add a single `.route-shell { overflow-x: clip; position: relative; isolation: isolate }` utility and apply it in `RootComponent`'s `<main>`.
+- The `aurora` utility uses `inset: -20%` on an `absolute` element — safe only if its parent clips. Add `overflow: hidden` to the direct `.relative` wrapper of every `.aurora` (routes/index, about, projects.index, projects.$slug, contact, dev, __root NotFound/Error).
+- Nav: it's `fixed inset-x-0` with inner `max-w-5xl` — fine, no change.
 
-## 2. Remove the huge empty gaps
+## 2. Fix the Dev Mode drawer alignment (IMG_9662)
 
-Root cause: every home-page section uses `py-28 sm:py-36` (= 112–144px top **and** bottom). Stacked, that produces ~half a phone screen of blank space between sections (visible in screenshots 2 and 3, between About→Skills and Process→CTA). The About page has the same issue with `py-16` stacked sections.
+The overlay uses `grid place-items-end`. `place-items-end` maps to `justify-items: end + align-items: end`, and in RTL `justify-items: end` = physical LEFT — so on Arabic the sheet snaps to the left edge and clips on the right. Even in LTR, "end" pins it to the right edge instead of centering.
+
+Fix in `src/components/dev-mode.tsx`:
+- Replace `grid place-items-end` with `flex items-end justify-center` so the sheet is bottom-centered in both directions.
+- Give the `<motion.aside>` `mx-auto w-[calc(100%-1.5rem)] max-w-md` so it always sits centered with equal side gutters, and drop the RTL-sensitive `m-3 sm:m-6`.
+- Add `max-h-[85dvh] overflow-y-auto overscroll-contain` so long content scrolls inside the sheet instead of the page.
+
+## 3. FAB physical anchoring (IMG_9657 / IMG_9659)
+
+WhatsApp uses `insetInlineEnd`, Dev Mode uses `insetInlineStart`. In RTL these swap physical sides, which is why the two buttons look "moved" between LTR and RTL screenshots and why the Dev Mode button appears near the right edge in the Arabic contact screenshot. The user reads this as a bug.
 
 Fix:
-- Introduce a single spacing rhythm: `py-16 sm:py-24` on mobile-first sections, with the first section keeping its larger top padding for hero clearance.
-- Collapse consecutive section paddings so the visual gap between two adjacent sections is one rhythm unit, not two.
-- Apply the same rhythm on: `routes/index.tsx`, `routes/about.tsx`, `routes/projects.index.tsx`, `routes/contact.tsx`, `routes/projects.$slug.tsx`.
-- Keep the section-reveal animations and the `SectionHeader` kicker untouched.
+- Pin them to physical sides: WhatsApp → `right: 1rem`, Dev Mode → `left: 1rem` (always, regardless of `dir`). Keep both at `bottom: 1.25rem` + `safe-bottom` on the wrapper.
+- Keep the `size-12` glass-strong disks and the outer WhatsApp halo already in place.
 
-## 3. Add the portfolio itself as a second project
+## 4. Restore the hero 3D color
 
-New case study `slug: "portfolio"` titled **"This Portfolio — Cinematic Frontend"** (AR: «هذا الموقع — واجهة سينمائية»). It will live alongside the GitHub Bot in `projects` array, so the projects index, the home featured grid, and the dynamic `projects/$slug` route all pick it up automatically.
+The 3D torus knot in `src/components/hero-canvas.tsx` currently forces `color="#a89cff"` on `MeshTransmissionMaterial`, tinting the whole background purple/blue. Revert to the original glass look: remove the `color` prop (falls back to white so the transmission stays clean glass), and lower `chromaticAberration` slightly if the rainbow is too heavy. Directional lights (`#7d6cff` + `#5fc8e8`) stay — they gave the original the subtle purple/cyan gradient the user liked.
 
-Content (all real, sourced from the actual codebase):
-- **Overview**: cinematic portfolio built on TanStack Start + React 19, glassmorphism design system, AMOLED dark mode, full AR/EN with RTL, lazy WebGL hero, Lenis smooth scroll.
-- **Stack**: Frontend (TanStack Start, React 19, TypeScript, Tailwind v4, Framer Motion, GSAP, Lenis), 3D (React Three Fiber, drei, Three.js), i18n (i18next, RTL), DevOps (Vercel, Vercel Analytics).
-- **Features**: intro monogram animation, glass design system, AMOLED dark mode, AR/EN with full RTL, WebGL hero with transmission material, magnetic buttons & text-morph hover, dynamic case-study routing, accessible contrast tokens, WhatsApp FAB, hidden Developer Mode drawer.
-- **Architecture**: file-based routing, design tokens in `styles.css`, single source of truth `lib/data.ts`, lazy-loaded R3F canvas, locale resources in `src/locales`.
-- **Live**: current deployed URL. **Repo**: omit (no public repo for this portfolio yet — better to omit than fabricate).
+## 5. Lighthouse / Core Web Vitals pass
 
-**Screenshots (4 real ones, captured live via Playwright)**:
-1. Home hero with the 3D glass torus
-2. About / education + skills
-3. Project case study page (GitHub Bot)
-4. Contact page CTA card
+Run a headless Lighthouse via Chromium against `http://localhost:8080` (mobile preset, throttled), save the JSON to `/tmp/browser/lh/`, and act only on the flagged items. Targeted low-risk wins to apply upfront:
+- Add `fetchpriority="high"` and `decoding="async"` on the LCP image (hero doesn't have one — LCP is the H1; keep as is), and `loading="lazy"` on the project gallery `<img>` already present.
+- Defer the R3F canvas: it already lazy-mounts, but also gate it behind `IntersectionObserver` so it only initialises when the hero is in view; unmount when it scrolls fully out of view to free the GPU on long-scroll pages.
+- Move `@vercel/speed-insights` and `@vercel/analytics` to a `React.lazy` + `Suspense` island so they don't block hydration (they log an INP hit on the theme toggle — visible in current console logs).
+- Preload the Instrument Serif 400 woff2 (LCP text uses it) via `head().links` in `__root.tsx`.
+- Confirm `overflow-x: clip` (from §1) removes CLS from the horizontal-shift jump.
 
-Captured at 1280×1800, saved to `src/assets/portfolio-*.jpg`, imported into `lib/data.ts` and rendered in the gallery + cover. The `Project` type already supports `gallery`, so the slug page renders them with no schema change. The case-study page's GitHub-Bot-specific sections (commands, security) only render when arrays are non-empty — verify and gate on length so this project doesn't show empty headers.
+## 6. Visual regression harness
 
-## 4. Code review pass (no feature removal)
+Add a lightweight Playwright-based screenshot check under `tests/visual/`:
+- `tests/visual/snap.spec.ts` visits `/`, `/about`, `/projects`, `/projects/portfolio`, `/contact` at 390×844 and 1280×900, screenshots each, and compares against baselines in `tests/visual/__snapshots__/`.
+- Add `@playwright/test` as a dev dep, a `playwright.config.ts` (Chromium only, `expect.toHaveScreenshot` with `maxDiffPixelRatio: 0.01`), and an npm script `test:visual`.
+- Baselines are committed once; subsequent runs fail on FAB size/position drift or section-spacing regressions. Not wired into CI here — user runs `bun run test:visual` locally.
 
-Targeted issues to fix while in there:
-- `hero-canvas` console warning: `THREE.Color: Invalid hex color #00000000` — the scene's clear color is passed as an 8-char hex; switch to a valid 6-char hex with separate alpha, or `scene.background = null` for transparency.
-- `Project.repos` is typed non-optional but the new portfolio entry has none — make it optional (`repos?: …`) and guard the render.
-- `projects.$slug.tsx` likely hard-renders Commands/Security/Architecture sections — gate each on `array.length > 0` so the portfolio case study stays clean.
-- Verify `og:image` is wired per case study (uses the cover image) for share previews.
-- Quick a11y sweep on the two FABs: real `aria-label`, focus-visible ring using design tokens.
+## 7. Code review + unused-dep sweep
 
-Out of scope for this turn: no design-token recoloring, no removal of any existing component, no copy rewrites elsewhere.
+- Scan `src/**` with `rg` for imports of each dependency. Drop packages with zero references from `package.json` via `bun remove`. Known suspects to verify: `gsap` (only referenced in DevMode copy, no actual `import gsap`), `recharts`, `embla-carousel-react`, `input-otp`, `vaul`, `react-day-picker`, `react-resizable-panels`, `cmdk`, `date-fns` — most ship in the shadcn template but this portfolio doesn't use them. Only remove after confirming zero imports (including transitive from `src/components/ui/*`); if a ui file imports it but the ui file itself is unused, delete the ui file too.
+- `Nav.tsx` has `{...({} as object)}` on `MagneticButton` — a workaround for a missing prop type. Fix the `MagneticButton` prop typing so the cast can go.
+- `dev.tsx` route duplicates the `DevModeButton` drawer content; keep both but extract the STACK/ARCH arrays into `src/lib/dev-manifest.ts` so they can't drift.
+- `Footer` links to `/dev` but the route sets `robots: noindex` — fine, but add `rel="nofollow"` on that footer link so crawlers don't chase it.
+- `__root.tsx` `themeBootstrap` reads `localStorage` in a try/catch — good. Add `prefers-reduced-motion` respect to `IntroExperience` (skip the 2s animation entirely under reduced motion).
+- Fix the console warning: `theme-color` should have two entries (`media="(prefers-color-scheme: dark)"` → `#000`, light → `#fff`) so iOS status bar matches the active theme.
+- Type: `Project.repos` already made optional last turn — verify `projects.$slug.tsx` renders it under `p.repos && p.repos.length`.
 
-## Technical notes
+## 8. Verification
 
-- Files touched: `src/components/whatsapp-fab.tsx`, `src/components/dev-mode.tsx`, `src/routes/index.tsx`, `src/routes/about.tsx`, `src/routes/projects.index.tsx`, `src/routes/projects.$slug.tsx`, `src/routes/contact.tsx`, `src/lib/data.ts`, `src/components/hero-canvas.tsx`, `src/locales/en.json`, `src/locales/ar.json`, plus 4 new screenshot assets under `src/assets/`.
-- Screenshot capture: headless Chromium via Playwright against `localhost:8080`, viewport 1280×1800, one shot per route, saved as JPEG.
-- Verification: build, then Playwright revisit of `/`, `/about`, `/projects`, `/projects/portfolio`, `/contact` to confirm spacing + FAB rendering on mobile viewport (390×844) and desktop.
+After edits:
+- `bun run build` (must pass).
+- Playwright script: for each of `/`, `/about`, `/projects`, `/projects/portfolio`, `/contact`, at 390×844 (LTR + `?lang=ar` RTL) and 1280×900, assert `document.documentElement.scrollWidth === document.documentElement.clientWidth` (no horizontal overflow), screenshot, and open the Dev Mode drawer to confirm it's bottom-centered in both directions. Save screenshots to `/tmp/browser/verify/`.
+- Run `bun run test:visual` once to commit baselines.
+- Run Lighthouse mobile once, report the four core scores back to the user.
+
+## Out of scope
+
+No copy rewrites, no design-token recoloring, no removal of intro/hero/nav/footer/case-study features. Everything is additive or a bug fix on existing behavior.

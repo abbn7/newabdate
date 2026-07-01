@@ -73,7 +73,7 @@ export function Nav() {
           </div>
           <ThemeToggle />
           <div className="hidden md:block">
-            <MagneticButton variant="primary" {...({} as object)}>
+            <MagneticButton variant="primary">
               <Link to="/contact" className="contents">
                 {t("nav.cta")}
               </Link>
