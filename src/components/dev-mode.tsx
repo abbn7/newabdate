@@ -50,8 +50,7 @@ export function DevModeButton() {
         transition={{ delay: 1.2, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         whileHover={{ scale: 1.06 }}
         whileTap={{ scale: 0.94 }}
-        className="fixed bottom-5 z-40 grid size-12 place-items-center rounded-full glass-strong shadow-2xl safe-bottom focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
-        style={{ insetInlineStart: "1rem" }}
+        className="fixed bottom-5 left-4 z-40 grid size-12 place-items-center rounded-full glass-strong shadow-2xl safe-bottom focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
       >
         <Code2 className="size-[18px] opacity-90" strokeWidth={1.75} />
       </motion.button>
@@ -62,7 +61,7 @@ export function DevModeButton() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] grid place-items-end bg-black/40 backdrop-blur-sm"
+            className="fixed inset-0 z-[60] flex items-end justify-center bg-black/40 backdrop-blur-sm"
             onClick={() => setOpen(false)}
           >
             <motion.aside
