@@ -9,7 +9,7 @@ const STACK = [
   ["TanStack Start", "React 19 full-stack framework"],
   ["TypeScript", "End-to-end type safety"],
   ["Tailwind CSS v4", "Design tokens via @theme"],
-  ["Framer Motion", "Layout & gesture motion"],
+  ["Framer Motion", "Layout, gesture & scroll motion"],
   ["GSAP", "Scroll-driven choreography"],
   ["React Three Fiber", "WebGL 3D in React"],
   ["Three.js + drei", "Transmission materials, env lighting"],
