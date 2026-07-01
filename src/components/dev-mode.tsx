@@ -10,7 +10,6 @@ const STACK = [
   ["TypeScript", "End-to-end type safety"],
   ["Tailwind CSS v4", "Design tokens via @theme"],
   ["Framer Motion", "Layout, gesture & scroll motion"],
-  ["Three.js + R3F", "WebGL 3D, transmission materials"],
   ["React Three Fiber", "WebGL 3D in React"],
   ["Three.js + drei", "Transmission materials, env lighting"],
   ["Lenis", "Smooth scroll engine"],
