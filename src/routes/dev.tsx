@@ -9,7 +9,7 @@ const STACK = [
   ["TypeScript", "End-to-end type safety from server functions to JSX."],
   ["Tailwind CSS v4", "Design tokens via @theme, glass utilities, custom variants."],
   ["Framer Motion", "Layout, gesture, and AnimatePresence transitions."],
-  ["GSAP-style choreography", "Easing curves tuned to Apple's [0.16,1,0.3,1]."],
+  ["Cinematic easing", "Apple-tuned curves [0.16, 1, 0.3, 1] across every motion."],
   ["React Three Fiber", "Declarative WebGL — hero torus, transmission material."],
   ["@react-three/drei", "Environment, Float, MeshTransmissionMaterial."],
   ["Lenis", "Smooth scroll with reduced-motion fallback."],
