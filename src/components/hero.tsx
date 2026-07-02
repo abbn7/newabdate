@@ -1,5 +1,5 @@
 "use client";
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
@@ -12,19 +12,36 @@ const HeroCanvas = lazy(() => import("./hero-canvas"));
 
 export function Hero() {
   const { t, i18n } = useTranslation();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const sectionRef = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") {
+      setInView(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0.01 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   const roles = i18n.language?.startsWith("ar") ? profile.rolesAr : profile.roles;
   const chips = ["React", "Next.js", "TypeScript", "Supabase", "Python"];
 
   return (
-    <section className="relative isolate flex min-h-[100svh] items-center overflow-hidden pt-28">
+    <section
+      ref={sectionRef}
+      className="relative isolate flex min-h-[100svh] items-center overflow-hidden pt-28"
+    >
       {/* Aurora background */}
       <div aria-hidden className="aurora animate-gradient" />
-      {/* 3D layer */}
+      {/* 3D layer — only mounted while hero is visible to keep the GPU idle on scroll */}
       <div className="pointer-events-none absolute inset-0 z-[1] opacity-90 [mask-image:radial-gradient(60%_60%_at_70%_40%,#000_40%,transparent_75%)]">
-        {mounted && (
+        {inView && (
           <Suspense fallback={null}>
             <HeroCanvas />
           </Suspense>

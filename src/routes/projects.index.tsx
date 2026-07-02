@@ -33,7 +33,7 @@ function ProjectsIndex() {
   return (
     <div className="relative">
       <div aria-hidden className="aurora" />
-      <section className="relative z-[1] px-4 pt-32 pb-16 sm:pt-40">
+      <section className="relative z-[1] px-4 pt-32 pb-8 sm:pt-40 sm:pb-10">
         <div className="mx-auto max-w-6xl">
           <SectionReveal>
             <SectionHeader kicker={t("projects.kicker")} title={t("projects.title")} />

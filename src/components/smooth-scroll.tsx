@@ -12,12 +12,20 @@ export function SmoothScroll() {
     });
     let raf = 0;
     const loop = (time: number) => {
-      lenis.raf(time);
+      if (document.visibilityState === "visible") {
+        lenis.raf(time);
+      }
       raf = requestAnimationFrame(loop);
     };
     raf = requestAnimationFrame(loop);
+    const onVis = () => {
+      // resume cleanly when tab regains focus
+      if (document.visibilityState === "visible") lenis.raf(performance.now());
+    };
+    document.addEventListener("visibilitychange", onVis);
     return () => {
       cancelAnimationFrame(raf);
+      document.removeEventListener("visibilitychange", onVis);
       lenis.destroy();
     };
   }, []);

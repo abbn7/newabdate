@@ -4,9 +4,7 @@ import { whatsappLink } from "@/lib/data";
 
 export function WhatsAppFab() {
   return (
-    <div
-      className="pointer-events-none fixed bottom-5 right-4 z-40 safe-bottom"
-    >
+    <div className="pointer-events-none relative">
       {/* Outer halo — sits OUTSIDE the glass disk so it doesn't wash the icon */}
       <span
         aria-hidden

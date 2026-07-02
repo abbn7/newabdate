@@ -265,7 +265,7 @@ function ProjectDetail() {
         </section>
       )}
 
-      <section className="relative z-[1] px-4 py-10 pb-20">
+      <section className="relative z-[1] px-4 py-8 pb-10">
         <div className="mx-auto max-w-6xl">
           <SectionReveal>
             <h2 className="font-display text-3xl tracking-tight">{t("projects.gallery")}</h2>

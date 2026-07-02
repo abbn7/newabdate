@@ -4,27 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Code2, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Logo } from "./logo";
-
-const STACK = [
-  ["TanStack Start", "React 19 full-stack framework"],
-  ["TypeScript", "End-to-end type safety"],
-  ["Tailwind CSS v4", "Design tokens via @theme"],
-  ["Framer Motion", "Layout, gesture & scroll motion"],
-  ["React Three Fiber", "WebGL 3D in React"],
-  ["Three.js + drei", "Transmission materials, env lighting"],
-  ["Lenis", "Smooth scroll engine"],
-  ["i18next", "AR / EN with RTL"],
-  ["Vercel Analytics", "Privacy-first analytics"],
-];
-
-const ARCH = [
-  "src/routes — file-based routing (TanStack)",
-  "src/components — design-system primitives",
-  "src/lib — i18n, theme, data, utils",
-  "src/locales — en.json, ar.json",
-  "src/assets — case-study media",
-  "Deployment — Vercel (TanStack Start preset)",
-];
+import { STACK, ARCH } from "@/lib/dev-manifest";
 
 export function DevModeButton() {
   const { t } = useTranslation();
@@ -46,12 +26,12 @@ export function DevModeButton() {
         aria-label="View developer mode"
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: 1.2, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        whileHover={{ scale: 1.06 }}
-        whileTap={{ scale: 0.94 }}
-        className="fixed bottom-5 left-4 z-40 grid size-12 place-items-center rounded-full glass-strong shadow-2xl safe-bottom focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+        transition={{ delay: 1.35, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        whileHover={{ scale: 1.08 }}
+        whileTap={{ scale: 0.92 }}
+        className="pointer-events-auto grid size-10 place-items-center rounded-full glass-strong shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
       >
-        <Code2 className="size-[18px] opacity-90" strokeWidth={1.75} />
+        <Code2 className="size-4 opacity-90" strokeWidth={1.75} />
       </motion.button>
 
       <AnimatePresence>

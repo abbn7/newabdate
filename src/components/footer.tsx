@@ -9,7 +9,7 @@ export function Footer() {
   const { t } = useTranslation();
   const year = new Date().getFullYear();
   return (
-    <footer className="relative z-[1] mt-32 px-4 pb-10">
+    <footer className="relative z-[1] mt-12 px-4 pb-10 sm:mt-16">
       <div className="mx-auto max-w-6xl">
         <div className="glass rounded-3xl p-8 sm:p-10">
           <div className="grid gap-10 sm:grid-cols-[1.4fr_1fr_1fr]">
