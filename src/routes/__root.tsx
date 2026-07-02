@@ -15,11 +15,15 @@ import "../lib/i18n";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { IntroExperience } from "@/components/intro";
-import { WhatsAppFab } from "@/components/whatsapp-fab";
-import { DevModeButton } from "@/components/dev-mode";
+import { FabStack } from "@/components/fab-stack";
 import { SmoothScroll } from "@/components/smooth-scroll";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/react";
+import { lazy, Suspense as ReactSuspense } from "react";
+const Analytics = lazy(() =>
+  import("@vercel/analytics/react").then((m) => ({ default: m.Analytics })),
+);
+const SpeedInsights = lazy(() =>
+  import("@vercel/speed-insights/react").then((m) => ({ default: m.SpeedInsights })),
+);
 import { useTranslation } from "react-i18next";
 import { applyDirection } from "@/lib/i18n";
 
