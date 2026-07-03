@@ -60,9 +60,13 @@ export function DevModeButton() {
                   </div>
                 </div>
                 <button
+                  type="button"
                   aria-label="Close"
-                  onClick={() => setOpen(false)}
-                  className="grid size-9 place-items-center rounded-full glass-subtle"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setOpen(false);
+                  }}
+                  className="pointer-events-auto grid size-9 place-items-center rounded-full glass-subtle transition-transform hover:scale-110 active:scale-95"
                 >
                   <X className="size-4" />
                 </button>
