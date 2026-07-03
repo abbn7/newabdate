@@ -110,18 +110,35 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
       { name: "theme-color", content: "#000000", media: "(prefers-color-scheme: dark)" },
       { name: "theme-color", content: "#ffffff", media: "(prefers-color-scheme: light)" },
-      { title: "Abdelhamed Nada — Full-Stack Developer & Frontend Specialist" },
-      {
-        name: "description",
-        content:
-          "Portfolio of Abdelhamed Nada — full-stack developer crafting cinematic, production-grade frontends with React, Next.js, TypeScript, and Supabase.",
-      },
-      { name: "author", content: "Abdelhamed Nada" },
-      { property: "og:site_name", content: "Abdelhamed Nada" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:creator", content: "@abdelhamednada" },
-    ],
+	      { title: "Abdelhamed Nada — Full-Stack Developer & Frontend Specialist" },
+	      {
+	        name: "description",
+	        content:
+	          "Portfolio of Abdelhamed Nada — Full-stack developer crafting cinematic, production-grade frontends with React, TypeScript, and Tailwind CSS. Specialist in high-performance web applications and creative UI.",
+	      },
+	      {
+	        name: "keywords",
+	        content:
+	          "Abdelhamed Nada, Full-Stack Developer, Frontend Specialist, React Developer, TypeScript, Tailwind CSS, UI/UX Design, Web Performance, Portfolio, Egypt Developer",
+	      },
+	      { name: "author", content: "Abdelhamed Nada" },
+	      { property: "og:title", content: "Abdelhamed Nada — Full-Stack Developer" },
+	      {
+	        property: "og:description",
+	        content: "Crafting cinematic, production-grade frontends with React and TypeScript.",
+	      },
+	      { property: "og:url", content: "https://github.com/abbn7/newabdate" },
+	      { property: "og:site_name", content: "Abdelhamed Nada Portfolio" },
+	      { property: "og:type", content: "website" },
+	      { name: "twitter:card", content: "summary_large_image" },
+	      { name: "twitter:title", content: "Abdelhamed Nada — Full-Stack Developer" },
+	      {
+	        name: "twitter:description",
+	        content: "Crafting cinematic, production-grade frontends with React and TypeScript.",
+	      },
+	      { name: "twitter:creator", content: "@abdelhamednada" },
+	      { name: "robots", content: "index, follow" },
+	    ],
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://vitals.vercel-insights.com", crossOrigin: "" },
