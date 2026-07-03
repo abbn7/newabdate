@@ -124,6 +124,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "preconnect", href: "https://vitals.vercel-insights.com", crossOrigin: "" },
+      { rel: "dns-prefetch", href: "https://vitals.vercel-insights.com" },
       {
         rel: "icon",
         type: "image/svg+xml",

@@ -1,11 +1,6 @@
 "use client";
 import { Canvas, useFrame } from "@react-three/fiber";
-import {
-  Environment,
-  Float,
-  MeshTransmissionMaterial,
-  PerformanceMonitor,
-} from "@react-three/drei";
+import { Float, PerformanceMonitor } from "@react-three/drei";
 import { useMemo, useRef, useState } from "react";
 import type * as THREE from "three";
 
@@ -20,17 +15,17 @@ function GlassTorus() {
     <Float speed={1.1} rotationIntensity={0.4} floatIntensity={1.1}>
       <mesh ref={ref} scale={1.15}>
         <torusKnotGeometry args={[1, 0.32, 160, 24]} />
-        <MeshTransmissionMaterial
-          backside
-          samples={4}
+        <meshPhysicalMaterial
+          transmission={1}
           thickness={1.4}
-          chromaticAberration={0.12}
-          anisotropy={0.6}
-          distortion={0.4}
-          distortionScale={0.4}
-          temporalDistortion={0.15}
-          roughness={0.05}
+          roughness={0.15}
+          metalness={0}
           ior={1.3}
+          clearcoat={1}
+          clearcoatRoughness={0.1}
+          attenuationDistance={2}
+          attenuationColor={"#ffffff"}
+          transparent
         />
       </mesh>
     </Float>
@@ -63,11 +58,12 @@ export default function HeroCanvas() {
       <PerformanceMonitor
         onDecline={() => setDpr(([min]) => [min, Math.max(min, 1)])}
       />
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[3, 4, 5]} intensity={1.2} color="#7d6cff" />
-      <directionalLight position={[-4, -2, 3]} intensity={0.8} color="#5fc8e8" />
+      <ambientLight intensity={0.6} />
+      <directionalLight position={[3, 4, 5]} intensity={1.4} color="#7d6cff" />
+      <directionalLight position={[-4, -2, 3]} intensity={1} color="#5fc8e8" />
+      <directionalLight position={[0, -3, -4]} intensity={0.6} color="#e89cd8" />
       <GlassTorus />
-      <Environment preset="city" />
     </Canvas>
   );
 }
+
