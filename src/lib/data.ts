@@ -1,13 +1,13 @@
 // Single source of truth — all data is REAL from the CV and project docs.
 // No fabricated metrics. If a value isn't in the CV, it isn't here.
 
-import giitHero from "@/assets/giit-hero.jpeg";
+import giitHero from "@/assets/giit-hero.jpeg?format=webp;jpeg&quality=78&as=picture&w=1600";
 import giitFeatures from "@/assets/giit-features.webp";
 import giitCommands from "@/assets/giit-commands.webp";
-import portfolioHome from "@/assets/portfolio-home.jpg";
-import portfolioAbout from "@/assets/portfolio-about.jpg";
-import portfolioCase from "@/assets/portfolio-case.jpg";
-import portfolioContact from "@/assets/portfolio-contact.jpg";
+import portfolioHome from "@/assets/portfolio-home.jpg?format=webp;jpeg&quality=78&as=picture&w=1600";
+import portfolioAbout from "@/assets/portfolio-about.jpg?format=webp;jpeg&quality=78&as=picture&w=1600";
+import portfolioCase from "@/assets/portfolio-case.jpg?format=webp;jpeg&quality=78&as=picture&w=1600";
+import portfolioContact from "@/assets/portfolio-contact.jpg?format=webp;jpeg&quality=78&as=picture&w=1600";
 
 export type Project = {
   slug: string;
