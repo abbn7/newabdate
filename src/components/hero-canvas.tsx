@@ -1,7 +1,7 @@
 "use client";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Float, PerformanceMonitor } from "@react-three/drei";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type * as THREE from "three";
 
 function GlassTorus() {
@@ -14,7 +14,7 @@ function GlassTorus() {
   return (
     <Float speed={1.1} rotationIntensity={0.4} floatIntensity={1.1}>
       <mesh ref={ref} scale={1.15}>
-        <torusKnotGeometry args={[1, 0.32, 160, 24]} />
+        <torusKnotGeometry args={[1, 0.32, 128, 20]} />
         <meshPhysicalMaterial
           transmission={1}
           thickness={1.4}
@@ -30,6 +30,36 @@ function GlassTorus() {
       </mesh>
     </Float>
   );
+}
+
+// Drives the demand-mode canvas via rAF, and pauses when tab is hidden
+// or the OS prefers reduced motion. Keeps CPU idle when nothing is animating.
+function DemandDriver() {
+  const invalidate = useThree((s) => s.invalidate);
+  useEffect(() => {
+    let raf = 0;
+    let stopped = document.hidden;
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      invalidate();
+      return;
+    }
+    const tick = () => {
+      if (!stopped) invalidate();
+      raf = requestAnimationFrame(tick);
+    };
+    const onVis = () => {
+      stopped = document.hidden;
+      if (!stopped) invalidate();
+    };
+    document.addEventListener("visibilitychange", onVis);
+    raf = requestAnimationFrame(tick);
+    return () => {
+      cancelAnimationFrame(raf);
+      document.removeEventListener("visibilitychange", onVis);
+    };
+  }, [invalidate]);
+  return null;
 }
 
 export default function HeroCanvas() {
@@ -48,6 +78,7 @@ export default function HeroCanvas() {
   return (
     <Canvas
       dpr={dpr}
+      frameloop="demand"
       gl={{
         antialias: !isLowPower,
         alpha: true,
@@ -58,6 +89,7 @@ export default function HeroCanvas() {
       <PerformanceMonitor
         onDecline={() => setDpr(([min]) => [min, Math.max(min, 1)])}
       />
+      <DemandDriver />
       <ambientLight intensity={0.6} />
       <directionalLight position={[3, 4, 5]} intensity={1.4} color="#7d6cff" />
       <directionalLight position={[-4, -2, 3]} intensity={1} color="#5fc8e8" />
