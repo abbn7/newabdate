@@ -15,6 +15,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
 import { Route as ProjectsSlugRouteImport } from './routes/projects.$slug'
+import { Route as BlogBuildingCinematicPortfoliosRouteImport } from './routes/blog.building-cinematic-portfolios'
 
 const DevRoute = DevRouteImport.update({
   id: '/dev',
@@ -46,12 +47,19 @@ const ProjectsSlugRoute = ProjectsSlugRouteImport.update({
   path: '/projects/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogBuildingCinematicPortfoliosRoute =
+  BlogBuildingCinematicPortfoliosRouteImport.update({
+    id: '/blog/building-cinematic-portfolios',
+    path: '/blog/building-cinematic-portfolios',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/dev': typeof DevRoute
+  '/blog/building-cinematic-portfolios': typeof BlogBuildingCinematicPortfoliosRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/projects/': typeof ProjectsIndexRoute
 }
@@ -60,6 +68,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/dev': typeof DevRoute
+  '/blog/building-cinematic-portfolios': typeof BlogBuildingCinematicPortfoliosRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/projects': typeof ProjectsIndexRoute
 }
@@ -69,6 +78,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/dev': typeof DevRoute
+  '/blog/building-cinematic-portfolios': typeof BlogBuildingCinematicPortfoliosRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/projects/': typeof ProjectsIndexRoute
 }
@@ -79,16 +89,25 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/dev'
+    | '/blog/building-cinematic-portfolios'
     | '/projects/$slug'
     | '/projects/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/contact' | '/dev' | '/projects/$slug' | '/projects'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/dev'
+    | '/blog/building-cinematic-portfolios'
+    | '/projects/$slug'
+    | '/projects'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/contact'
     | '/dev'
+    | '/blog/building-cinematic-portfolios'
     | '/projects/$slug'
     | '/projects/'
   fileRoutesById: FileRoutesById
@@ -98,6 +117,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
   DevRoute: typeof DevRoute
+  BlogBuildingCinematicPortfoliosRoute: typeof BlogBuildingCinematicPortfoliosRoute
   ProjectsSlugRoute: typeof ProjectsSlugRoute
   ProjectsIndexRoute: typeof ProjectsIndexRoute
 }
@@ -146,6 +166,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/building-cinematic-portfolios': {
+      id: '/blog/building-cinematic-portfolios'
+      path: '/blog/building-cinematic-portfolios'
+      fullPath: '/blog/building-cinematic-portfolios'
+      preLoaderRoute: typeof BlogBuildingCinematicPortfoliosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -154,6 +181,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
   DevRoute: DevRoute,
+  BlogBuildingCinematicPortfoliosRoute: BlogBuildingCinematicPortfoliosRoute,
   ProjectsSlugRoute: ProjectsSlugRoute,
   ProjectsIndexRoute: ProjectsIndexRoute,
 }
