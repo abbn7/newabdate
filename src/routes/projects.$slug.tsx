@@ -16,7 +16,7 @@ export const Route = createFileRoute("/projects/$slug")({
     if (!p) return { meta: [{ title: "Project — Abdelhamed Nada" }] };
     return {
       meta: [
-        { title: `${p.title} — Case Study · Abdelhamed Nada` },
+        { title: `${p.title} · Abdelhamed Nada` },
         { name: "description", content: p.tagline },
         { property: "og:title", content: `${p.title} — Case Study` },
         { property: "og:description", content: p.tagline },
