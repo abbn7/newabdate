@@ -36,6 +36,7 @@ function AboutPage() {
       <div aria-hidden className="aurora" />
       <section className="relative z-[1] px-4 pt-32 pb-10 sm:pt-40">
         <div className="mx-auto max-w-6xl">
+          <h1 className="sr-only">About Abdelhamed Nada</h1>
           <SectionReveal>
             <SectionHeader kicker={t("about.kicker")} title={t("about.title")} />
           </SectionReveal>

@@ -34,6 +34,7 @@ function ContactPage() {
       <div aria-hidden className="aurora" />
       <section className="relative z-[1] px-4 pt-32 pb-8 sm:pt-40 sm:pb-10">
         <div className="mx-auto max-w-5xl">
+          <h1 className="sr-only">Contact Abdelhamed Nada</h1>
           <SectionReveal>
             <SectionHeader
               kicker={t("contact.kicker")}

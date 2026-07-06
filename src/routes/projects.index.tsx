@@ -35,6 +35,7 @@ function ProjectsIndex() {
       <div aria-hidden className="aurora" />
       <section className="relative z-[1] px-4 pt-32 pb-8 sm:pt-40 sm:pb-10">
         <div className="mx-auto max-w-6xl">
+          <h1 className="sr-only">Portfolio of Shipped Projects</h1>
           <SectionReveal>
             <SectionHeader kicker={t("projects.kicker")} title={t("projects.title")} />
           </SectionReveal>
