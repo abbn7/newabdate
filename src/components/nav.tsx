@@ -82,9 +82,10 @@ export function Nav() {
           </div>
           <button
             type="button"
-            aria-label="Menu"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className="grid size-10 place-items-center rounded-full glass-subtle md:hidden"
+            className="grid size-11 min-h-11 min-w-11 place-items-center rounded-full glass-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background md:hidden"
           >
             {open ? <X className="size-4" /> : <Menu className="size-4" />}
           </button>
