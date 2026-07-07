@@ -46,9 +46,10 @@ function ProjectsIndex() {
                 <Link
                   to="/projects/$slug"
                   params={{ slug: p.slug }}
-                  className="group block"
+                  className="group block rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                  aria-label={`${isAr ? p.titleAr : p.title} — ${t("projects.view_case")}`}
                 >
-                  <GlassCard className="overflow-hidden transition group-hover:-translate-y-0.5">
+                  <GlassCard className="overflow-hidden transition duration-300 group-hover:-translate-y-0.5 group-hover:bg-[var(--glass-3)] motion-reduce:transition-none motion-reduce:group-hover:translate-y-0">
                     <div className="grid gap-0 lg:grid-cols-[1fr_1.1fr]">
                       <div className="relative min-h-72 overflow-hidden">
                         <img
@@ -56,7 +57,7 @@ function ProjectsIndex() {
                           alt={p.title}
                           loading="lazy"
                           decoding="async"
-                          className="absolute inset-0 size-full object-cover transition duration-700 group-hover:scale-[1.04]"
+                          className="absolute inset-0 size-full object-cover transition duration-700 group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                         />
                         <div className="absolute inset-0 bg-gradient-to-tr from-black/55 via-transparent to-transparent" />
                       </div>
@@ -82,7 +83,7 @@ function ProjectsIndex() {
                         </div>
                         <div className="mt-8 inline-flex items-center gap-2 text-sm">
                           {t("projects.view_case")}
-                          <ArrowUpRight className="size-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                          <ArrowUpRight className="size-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 rtl:group-hover:-translate-x-0.5 motion-reduce:transition-none" />
                         </div>
                       </div>
                     </div>
