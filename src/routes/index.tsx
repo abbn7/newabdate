@@ -215,7 +215,7 @@ function HomePage() {
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {process.map((p, i) => (
               <SectionReveal key={p.t} delay={i * 0.06}>
-                <GlassCard className="h-full p-6">
+                <GlassCard className="h-full p-6 transition-colors duration-300 hover:bg-[var(--glass-3)] motion-reduce:transition-none">
                   <div className="font-mono text-xs text-muted-foreground">0{i + 1}</div>
                   <div className="mt-3 font-display text-2xl tracking-tight">{p.t}</div>
                   <p className="mt-2 text-sm text-muted-foreground">{p.d}</p>
