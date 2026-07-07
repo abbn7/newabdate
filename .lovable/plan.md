@@ -1,53 +1,78 @@
+- خطة تحسينات بصرية + Accessibility (بدون حذف أو تغيير محتوى)
 
-## 1. Lighthouse + Core Web Vitals report
+النطاق محصور في **Hero + Home** و **Projects (list + case study)**. كل شيء **additive** — ما فيش حذف لأي ملف/عنصر/نص/لون/تصميم، وما فيش تغيير في السلوك أو الـ layout.
 
-- Build the app (`bun run build`) and serve the production output locally on `http://localhost:4173`.
-- Run headless Lighthouse (mobile preset, throttled) via `npx lighthouse` against `/`, `/about`, `/projects`, `/projects/portfolio`, `/contact`, `/dev` — both EN and AR. Save the JSON + HTML reports to `/tmp/browser/lh/`.
-- Extract for each route: Performance score, LCP, TBT, CLS, INP (from the trace), TTFB, and the top 5 flagged opportunities/diagnostics.
-- Also capture live Core Web Vitals via `web-vitals` in a Playwright run (real user timing after scroll/interaction) so INP is real, not synthetic.
-- Report back in a single clean table:
+## 1. Micro-interactions polish
 
-  ```
-  Route      Perf  LCP    TBT    CLS    INP    Top issues
-  /          --    --     --     --     --     …
-  /projects  --    --     --     --     --     …
-  ```
+`**src/components/hero.tsx**`
 
-- For every issue flagged (unused JS, render-blocking, image sizing, main-thread work, unused CSS, LCP element, etc.), list it with severity and the file it points to. No fixes applied in this pass — the report is the deliverable. Any fix that requires design or behavior changes is called out for approval before touching code.
+- إضافة hover tilt خفيف جدًا (`translate-y-[-2px]` + shadow lift عبر transition موجودة أصلاً) على الـ CTA buttons — بدون تغيير الحجم أو اللون.
+- تحسين الـ chips row: إضافة `transition-colors` + hover state خفيف على الـ `glass-subtle` (يستخدم متغير `--glass-3` الموجود).
+- ما فيش تغيير على الـ canvas أو النصوص أو الترتيب.
 
-- The only auto-fixes applied in this pass are strictly "zero-risk, zero-visual-change":
-  - Add `<link rel="preload" as="font" type="font/woff2" crossorigin>` for the Instrument Serif 400 file the H1 uses (in `__root.tsx` head links), only if Lighthouse flags "font not preloaded" or LCP is font-blocked.
-  - Add `decoding="async"` / `loading="lazy"` to non-LCP `<img>` in `projects.$slug.tsx` gallery, only if flagged.
-  - Add `content-visibility: auto; contain-intrinsic-size: 800px` on the very tall off-screen sections in `index.tsx`, only if TBT/INP flags long paints.
+`**src/routes/index.tsx**` (Featured project card, Process cards, Skills chips)
 
-  Anything else stays as a written recommendation for user approval.
+- إضافة `group` + `group-hover:translate-x-0.5` خفيف على أيقونة `ArrowUpRight` في CTA — حركة صغيرة عند hover فقط.
+- تحسين hover على `GlassCard` الخاص بالـ Process: `hover:bg-[var(--glass-3)]` transition ناعمة (المتغير موجود، مش هيبوظ الثيم).
+- Skills chips: إضافة `transition-colors hover:text-foreground` (اللون الحالي `text-foreground/85` يبقى default).
 
-## 2. Normalize icon/FAB spacing (visuals unchanged, only rhythm)
+`**src/routes/projects.index.tsx**` و `**src/routes/projects.$slug.tsx**`
 
-Symptom: the two FABs stack correctly, but the gap between them and the gap under the WhatsApp halo don't read as intentional. Also spot-checked chip/icon rows in `hero.tsx`, `section-header.tsx` kicker dot, footer socials — a couple use ad-hoc gap values that don't match the rest of the site.
+- إضافة hover state على cards المشاريع (lift خفيف + بورد glow يستخدم `--glass-border` الموجود).
+- إضافة `transition` ناعمة على صور الـ gallery في case study (scale 1 → 1.02 عند hover على المحتوي فقط، بدون قص الصور).
+- ما فيش تغيير في محتوى أو ترتيب أو تصميم البطاقات.
 
-Non-destructive spacing normalization (no design, color, or size changes):
+## 2. Accessibility (a11y) — بدون تغيير مرئي
 
-- **`src/components/fab-stack.tsx`**: change the flex column gap from `gap-2.5` (10px) to `gap-3` (12px) so the two disks breathe evenly; the WhatsApp halo (blur-xl) currently visually overlaps the top of the Dev Mode disk at `gap-2.5`. Keep `bottom-5 right-4` and `safe-bottom` exactly as-is.
-- **`src/components/whatsapp-fab.tsx`**: the halo `<span>` uses `inset-0` + `blur-xl`, which extends ~24px past the disk. Constrain the halo to the disk footprint by adding `inset-[-2px]` → `inset-0` stays but the blur radius drops from `blur-xl` to `blur-lg` **only** if step above still shows halo bleed. Zero visual change to the disk itself — this is only to keep the halo from crowding the second FAB.
-- **`src/components/dev-mode.tsx`** (button portion only): confirm it drops its own `fixed`/positioning and inherits from FabStack (should already be the case). If any leftover margin (`mb-*`, `mt-*`) exists on the button root, remove it so FabStack's `gap-*` is the single source of truth.
-- **`src/components/hero.tsx`** chips row: unify to `gap-2` across all breakpoints (currently mixes `gap-2` and `gap-3` at different breakpoints per read).
-- **`src/components/footer.tsx`** social icons row: unify to `gap-3` (matches nav's icon rhythm).
-- **`src/components/section-header.tsx`** kicker: no change (already `gap-2`).
+**Icon-only controls**
 
-Rule enforced (mental grid): FABs = `gap-3`, inline icon rows = `gap-2`, icon-with-label rows = `gap-3`. Applied everywhere it currently drifts; nothing else touched.
+- التأكد من وجود `aria-label` على كل زر/رابط icon-only في: `nav.tsx`, `footer.tsx`, `whatsapp-fab.tsx`, `dev-mode.tsx`, `theme-toggle.tsx`, `lang-toggle.tsx`. إضافة اللي ناقص فقط.
+- روابط GitHub / Live في `index.tsx` و `projects.$slug.tsx` — التأكد إن كل `<a target="_blank">` عنده `rel="noreferrer"` (موجود) + `aria-label` وصفي لما النص مش كافي.
 
-## 3. Verification
+**Focus visibility**
 
-- `bun run build` clean.
-- Playwright 390×844 + 1280×900, EN + AR: screenshot bottom-right corner of `/`, `/about`, `/projects`, `/contact`, `/dev`. Confirm:
-  - WhatsApp halo no longer touches the Dev Mode disk.
-  - Gap between the two FABs looks intentional and identical on every route.
-  - Chip and social icon rows have consistent spacing.
-- Report Lighthouse table back to the user with issues + recommended (but not-yet-applied) fixes for their approval.
+- إضافة `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background` على الأزرار والروابط اللي مالهاش focus ring واضح حالياً (CTAs في Hero و Featured و CTA section). الحلقة تظهر فقط عند keyboard focus — مش هتأثر على الماوس.
 
-## Out of scope
+**Semantics**
 
-- No visual redesign, no icon/color/size changes to the FABs themselves.
-- No feature removals, no dependency changes.
-- Any Lighthouse fix that requires touching design or behavior is written as a recommendation, not silently applied.
+- التأكد من وجود `<main>` واحد فقط (موجود في `__root.tsx` عبر `<main className="relative">` — تأكيد فقط).
+- التأكد إن `alt` على الصور موجود ووصفي (cover في Home + gallery في case study). إضافة `alt=""` للصور الديكورية لو موجودة بدون معنى.
+- التأكد من H1 واحد على كل صفحة (Hero يحتوي H1، الصفحات الداخلية تستخدم H1 مرة واحدة).
+
+**Reduced motion**
+
+- إضافة `motion-reduce:transition-none motion-reduce:hover:transform-none` على الـ hover animations الجديدة اللي هتتضاف — احترام `prefers-reduced-motion`.
+
+**Tap targets (mobile)**
+
+- التأكد إن كل الـ icon buttons ≥ 44x44 على mobile (WhatsApp/Dev FABs موجودين كده، nav icons — فحص وإضافة `min-h-11 min-w-11` لو ناقص).
+
+## 3. الملفات المتوقع تعديلها
+
+- `src/components/hero.tsx` — hover states + focus rings (additive classes only)
+- `src/routes/index.tsx` — hover polish على Featured/Process/Skills + focus rings + aria-labels
+- `src/routes/projects.index.tsx` — hover على cards + focus rings
+- `src/routes/projects.$slug.tsx` — hover على gallery + focus rings + aria-labels
+- `src/components/nav.tsx`, `src/components/footer.tsx` — aria-labels فقط لو ناقصة، + tap-target sizing
+- `src/components/glass-card.tsx` — قد نضيف optional `interactive` prop (opt-in، الاستخدامات الحالية ما تتأثرش)
+
+## 4. Out of scope (مضمون إنها ما تتغيرش)
+
+- ❌ ما فيش حذف لأي مكون أو route أو نص أو صورة أو حقل.
+- ❌ ما فيش تغيير في الألوان أو الخطوط أو الـ tokens في `styles.css`.
+- ❌ ما فيش تغيير في الـ layout / grid / spacing الأساسي.
+- ❌ ما فيش تعديل على الـ 3D canvas أو intro أو smooth scroll أو i18n.
+- ❌ ما فيش تعديل على SEO metadata أو sitemap أو الـ blog article.
+- ❌ ما فيش dependencies جديدة.
+
+## 5. التحقق
+
+- `bun run build` نظيف.
+- فحص بصري بـ Playwright (390×844 + 1280×900، EN + AR) لـ `/`, `/projects`, `/projects/portfolio` — screenshots قبل/بعد للتأكد من عدم وجود تغيير في اللاي أوت.
+- keyboard tab-through على الصفحة الرئيسية 
+- للتأكد من ظهور focus rings.
+- قبل التنفيذ:
+  1) خلي arrow hover في index.tsx RTL-aware: rtl:group-hover:-translate-x-0.5 جنب الأصلي.
+  2) ضيف نفس focus-visible ring (اللي هتضيفه للـ CTAs) على project cards في projects.index.tsx بالظبط.
+  3) تأكد الـ gallery image container فيه overflow-hidden قبل تطبيق scale-102.
+  &nbsp;
