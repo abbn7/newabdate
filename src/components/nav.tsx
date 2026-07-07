@@ -53,9 +53,10 @@ export function Nav() {
                 <Link
                   to={l.to}
                   className={cn(
-                    "relative rounded-full px-3.5 py-1.5 text-[13px] font-medium transition",
+                    "relative rounded-full px-3.5 py-1.5 text-[13px] font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none",
                     active ? "text-foreground" : "text-muted-foreground hover:text-foreground",
                   )}
+                  aria-current={active ? "page" : undefined}
                 >
                   {active && (
                     <span className="absolute inset-0 rounded-full glass-subtle" aria-hidden />
