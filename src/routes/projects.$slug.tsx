@@ -275,14 +275,16 @@ function ProjectDetail() {
           <div className="mt-8 grid gap-6 md:grid-cols-2">
             {p.gallery.map((g, i) => (
               <SectionReveal key={g.src} delay={i * 0.05}>
-                <GlassCard className="overflow-hidden">
-                  <img
-                    src={g.src}
-                    alt={g.caption}
-                    loading="lazy"
-                    decoding="async"
-                    className="h-auto w-full"
-                  />
+                <GlassCard className="group overflow-hidden transition-colors duration-300 hover:bg-[var(--glass-3)] motion-reduce:transition-none">
+                  <div className="overflow-hidden">
+                    <img
+                      src={g.src}
+                      alt={g.caption}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-auto w-full transition-transform duration-700 ease-out group-hover:scale-[1.02] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                    />
+                  </div>
                   <div className="p-4 text-xs text-muted-foreground">{g.caption}</div>
                 </GlassCard>
               </SectionReveal>
