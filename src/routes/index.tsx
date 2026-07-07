@@ -115,7 +115,7 @@ function HomePage() {
                     {g.items.map((s) => (
                       <li
                         key={s}
-                        className="rounded-full glass-subtle px-3 py-1 text-[12px] text-foreground/85"
+                        className="rounded-full glass-subtle px-3 py-1 text-[12px] text-foreground/85 transition-colors hover:text-foreground hover:bg-[var(--glass-3)] motion-reduce:transition-none"
                       >
                         {s}
                       </li>
